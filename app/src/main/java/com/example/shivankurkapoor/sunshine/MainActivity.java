@@ -1,5 +1,6 @@
 package com.example.shivankurkapoor.sunshine;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +37,12 @@ private final String TAG = MainActivity.class.getSimpleName();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this,SettingsActivity.class));
+
+
             return true;
+
+
         }
 
         return super.onOptionsItemSelected(item);
