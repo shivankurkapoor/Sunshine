@@ -13,11 +13,48 @@ import java.lang.reflect.Field;
 
 public class MainActivity extends ActionBarActivity {
 private final String TAG = MainActivity.class.getSimpleName();
+    private final String FORECASTFRAGMENT_TAG = "FFTAG";
+    private String mLocation;
+    private String munit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mLocation = Utility.getPreferredLocation(this);
+        munit = Utility.getPrefferedUnit(this);
         super.onCreate(savedInstanceState);
         makeActionOverflowMenuShown();
         setContentView(R.layout.activity_main);
+        if(savedInstanceState ==null)
+        {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container,new ForecastFragment(),FORECASTFRAGMENT_TAG)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        String location = Utility.getPreferredLocation(this);
+
+        ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
+
+        // update the location in our second pane using the fragment manager
+        if (location != null && !location.equals(mLocation)) {
+            if ( null != ff ) {
+                ff.onLocationChanged();
+            }
+            mLocation = location;
+        }
+
+        String unit = Utility.getPrefferedUnit(this);
+        if(unit!=null &!unit.equals(munit))
+        {
+            if ( null != ff ) {
+                ff.onUnitChanged();
+            }
+            munit = unit;
+        }
     }
 
 

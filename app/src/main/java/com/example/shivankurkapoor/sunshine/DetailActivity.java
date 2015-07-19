@@ -17,8 +17,12 @@
 package com.example.shivankurkapoor.sunshine;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
@@ -28,21 +32,28 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shivankurkapoor.sunshine.R;
+import com.example.shivankurkapoor.sunshine.data.WeatherContract;
+
+import java.lang.reflect.Field;
 
 public class DetailActivity extends ActionBarActivity {
 
-    private ShareActionProvider mShareActionProvider;
+
+    //private ShareActionProvider mShareActionProvider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new DetailFragment())
                     .commit();
         }
     }
@@ -52,11 +63,6 @@ public class DetailActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.detail, menu);
-        // Locate MenuItem with ShareActionProvider
-       // MenuItem item = menu.findItem(R.id.menu_item_share);
-
-        // Fetch and store ShareActionProvider
-       // mShareActionProvider = (ShareActionProvider) item.getActionProvider();
 
         return true;
     }
@@ -74,68 +80,6 @@ public class DetailActivity extends ActionBarActivity {
         }
 
 
-
         return super.onOptionsItemSelected(item);
     }
-
-
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-            setHasOptionsMenu(true);
-        }
-
-        private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
-        private String mForecaststr;
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-
-            Intent intent = getActivity().getIntent();//getting a set intent
-
-            TextView tv= (TextView)rootView.findViewById(R.id.fragment_detail_text);
-
-            mForecaststr  = intent.getStringExtra(intent.EXTRA_TEXT);
-            tv.setText(mForecaststr);
-
-
-            return rootView;
-        }
-
-       @Override
-       public void onCreateOptionsMenu(Menu menu,MenuInflater inflater)
-       {
-             inflater.inflate(R.menu.detailfragment,menu);
-
-           MenuItem menuItem = menu.findItem(R.id.menu_item_share);
-           // Get the provider and hold onto it to set/change the share intent.
-           ShareActionProvider mShareActionProvider =
-                   (ShareActionProvider)   MenuItemCompat.getActionProvider(menuItem);
-
-           // Attach an intent to this ShareActionProvider.  You can update this at any time,
-           // like when the user selects a new piece of data they might like to share.
-           if (mShareActionProvider != null ) {
-               mShareActionProvider.setShareIntent(createShareForecastIntent());
-           } else {
-               Log.d(PlaceholderFragment.class.getSimpleName(), "Share Action Provider is null?");
-           }
-       }
-
-        private Intent createShareForecastIntent()
-        {
-            Intent shareIntent = new Intent (Intent.ACTION_SEND);
-            shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT,mForecaststr+FORECAST_SHARE_HASHTAG);
-            return shareIntent;
-        }
-    }
-
-
 }

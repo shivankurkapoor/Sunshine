@@ -1,19 +1,27 @@
 package com.example.shivankurkapoor.sunshine;
 
-import android.content.SharedPreferences;
+
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
 
-import java.util.regex.Pattern;
+import android.util.Log;
+
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewConfiguration;
+
+
+import java.lang.reflect.Field;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings.
@@ -25,6 +33,8 @@ import java.util.regex.Pattern;
  */
 public class SettingsActivity extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener {
+    private AppCompatDelegate mDelegate;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +49,9 @@ public class SettingsActivity extends PreferenceActivity
         // TODO: Add preferences
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
+
     }
+
 
 
 
@@ -83,7 +95,9 @@ public class SettingsActivity extends PreferenceActivity
                 return false;
             }
             else
-            preference.setSummary(stringValue);
+            {
+                preference.setSummary(stringValue);
+            }
 
         }
         return true;

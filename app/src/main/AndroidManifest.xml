@@ -35,6 +35,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.shivankurkapoor.sunshine.MainActivity" />
         </activity>
+
+        <provider
+            android:authorities = "com.example.shivankurkapoor.sunshine.data"
+            android:name = "com.example.shivankurkapoor.sunshine.data.WeatherProvider"
+            android:enabled="true"
+            android:exported="true"
+           />
     </application>
+
+
+
 
 </manifest>
