@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,12 +114,26 @@ public class ForecastAdapter extends CursorAdapter {
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-        int weather_id = cursor.getInt(ForecastFragment.COL_WEATHER_ID);
+        int weather_id = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
 
 //        ImageView iconView = (ImageView) view.findViewById(R.id.list_item_icon);
 //        iconView.setImageResource(R.drawable.ic_launcher);
+        int viewType = getItemViewType(cursor.getPosition());
 
-        viewHolder.iconView.setImageResource(R.drawable.ic_launcher);
+        Log.v(ForecastAdapter.class.getSimpleName(),"@@@@###$$$%%%"+Utility.getArtResourceForWeatherCondition(weather_id));
+        switch (viewType) {
+            case VIEW_TODAY: {
+                // Get weather icon
+                viewHolder.iconView.setImageResource(Utility.getArtResourceForWeatherCondition(weather_id));
+                break;
+            }
+            case VIEW_FUTURE: {
+                // Get weather icon
+                viewHolder.iconView.setImageResource(Utility.getIconResourceForWeatherCondition(weather_id));
+                break;
+            }
+        }
+
 
         long dateinmilli = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
 //        TextView dateView = (TextView) view.findViewById(R.id.list_item_date_textview);

@@ -34,13 +34,13 @@
                 android:id="@+id/detail_day_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                 />
+                android:textAppearance="?android:textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/detail_date_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                 />
+                android:textAppearance="?android:textAppearanceMedium" />
 
         </LinearLayout>
 
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                />
+                android:textSize="50sp" />
 
             <TextView
                 android:id="@+id/detail_low_textview"
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                />
+                android:textSize="30sp"/>
 
         </LinearLayout>
 
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                 />
+                android:textAppearance="?android:textAppearanceMedium" />
 
         </LinearLayout>
     </LinearLayout>
@@ -139,21 +139,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                 />
+                android:textAppearance="?android:textAppearanceMedium"   />
 
             <TextView
                 android:id="@+id/detail_wind_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                />
-
+                android:textAppearance="?android:textAppearanceMedium"/>
             <TextView
                 android:id="@+id/detail_pressure_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                 />
+                android:textAppearance="?android:textAppearanceMedium"  />
         </LinearLayout>
     </LinearLayout>
 

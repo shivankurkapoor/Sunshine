@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:text="Tomorrow" />
+            android:text="Tomorrow"
+            android:textAppearance="?android:textAppearanceMedium"/>
 
         <TextView
             android:id="@+id/list_item_high_textview"
@@ -30,15 +31,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:text="35" />
+            android:text="35"
+            android:textSize="40sp"/>
 
         <TextView
             android:id="@+id/list_item_low_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0"
-            android:text="25" />
+            android:layout_weight="1"
+            android:text="25"
+            android:textAppearance="?android:textAppearanceMedium"/>
 
     </LinearLayout>
 
@@ -53,10 +56,10 @@
 
         <ImageView
             android:id="@+id/list_item_icon"
-            android:layout_width="60dp"
-            android:layout_height="63dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="top|center_horizontal"
-            android:src="@drawable/ic_launcher" />
+            />
 
         <TextView
             android:id="@+id/list_item_forecast_textview"
@@ -64,7 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0"
-            android:text="Clear" />
+            android:text="Clear"
+            android:textAppearance="?android:textAppearanceMedium"/>
 
     </LinearLayout>
 

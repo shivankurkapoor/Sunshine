@@ -1,27 +1,17 @@
 package com.example.shivankurkapoor.sunshine;
 
 
-import android.content.res.Configuration;
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
-
-import android.util.Log;
-
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewConfiguration;
-
-
-import java.lang.reflect.Field;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings.
@@ -39,6 +29,7 @@ public class SettingsActivity extends PreferenceActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
+        setTitle("Settings");
         super.onCreate(savedInstanceState);
 
         // Add 'general' preferences, defined in the XML file
@@ -103,4 +94,10 @@ public class SettingsActivity extends PreferenceActivity
         return true;
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public Intent getParentActivityIntent() {
+        return super.getParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    }
 }
+

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -34,8 +35,10 @@ import android.support.v4.content.CursorLoader;
 public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     ArrayAdapter<String> stringArrayAdapter;
     private ForecastAdapter mForecastAdapter;
+    private int listposition;
+    private static final String POSITION_KEY = "position";
     private static final int FORECAST_LOADER = 0;
-
+    ListView listView;
     private static final String[] FORECAST_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
             // the content provider joins the location & weather tables in the background
@@ -70,6 +73,19 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     }
 
+
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(Uri dateUri);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,11 +101,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
 
 //
 //       List<String> arr = new ArrayList<String>();
@@ -103,8 +117,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 //                R.id.list_item_forecast_textview,
 //                //
 //                arr);
-       // View rootview = inflater.inflate(R.layout.fragment_main, container, false);
-       // final ListView listView = (ListView) rootview.findViewById(R.id.listview_forecast);
+        // View rootview = inflater.inflate(R.layout.fragment_main, container, false);
+        // final ListView listView = (ListView) rootview.findViewById(R.id.listview_forecast);
 //        listView.setAdapter(stringArrayAdapter);
 //
 //
@@ -135,34 +149,64 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         // up with an empty list the first time we run.
 
 
-
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Get a reference to the ListView, and attach this adapter to it.
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+            //            @Override
+//            public void onItemClick(AdapterView adapterView, View view, int position, long l) {
+//                // CursorAdapter returns a cursor at the correct position for getItem(), or null
+//                // if it cannot seek to that position.
+//                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+//                if (cursor != null) {
+//                    String locationSetting = Utility.getPreferredLocation(getActivity());
+//                    Intent intent = new Intent(getActivity(), DetailActivity.class)
+//                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+//                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
+//                            ));
+//                    startActivity(intent);
+//                }
+//            }
+
             @Override
-            public void onItemClick(AdapterView adapterView, View view, int position, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 // CursorAdapter returns a cursor at the correct position for getItem(), or null
                 // if it cannot seek to that position.
+                listposition = position;
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
                     String locationSetting = Utility.getPreferredLocation(getActivity());
-                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                    ((Callback) getActivity())
+                            .onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
                                     locationSetting, cursor.getLong(COL_WEATHER_DATE)
                             ));
-                    startActivity(intent);
                 }
             }
+
         });
 
+
+        if(savedInstanceState!=null && savedInstanceState.containsKey(POSITION_KEY))
+            listposition = savedInstanceState.getInt(POSITION_KEY);
+
         return rootView;
+
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        if(listposition!=ListView.INVALID_POSITION)
+            outState.putInt(POSITION_KEY,listposition);
+
+        super.onSaveInstanceState(outState);
 
 
     }
@@ -194,7 +238,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             Uri gmmIntentUri = Uri.parse("geo:0,0?").buildUpon()
                     .appendQueryParameter("q", location)
                     .build();
-            Intent mapintent = new Intent(Intent.ACTION_VIEW,gmmIntentUri);
+            Intent mapintent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapintent.setPackage("com.google.android.apps.maps");
 
             if (mapintent.resolveActivity(this.getActivity().getApplicationContext().getPackageManager()) != null)
@@ -208,14 +252,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
 
-
-    void onLocationChanged(){
+    void onLocationChanged() {
         updateWeather();
-        getLoaderManager().restartLoader(FORECAST_LOADER,null,this);
+        getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
     }
 
-    void onUnitChanged()
-    {
+    void onUnitChanged() {
         mForecastAdapter.notifyDataSetChanged();
     }
 
@@ -245,6 +287,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mForecastAdapter.swapCursor(data);
+        if(listposition!=ListView.INVALID_POSITION)
+            listView.setSelection(listposition);
 
     }
 
