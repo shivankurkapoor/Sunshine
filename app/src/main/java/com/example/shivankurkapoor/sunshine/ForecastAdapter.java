@@ -7,8 +7,6 @@ package com.example.shivankurkapoor.sunshine;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +23,10 @@ public class ForecastAdapter extends CursorAdapter {
 
     private final int VIEW_TODAY = 0;
     private final int VIEW_FUTURE = 1;
+
+
+    // Flag to determine if we want to use a separate view for "today".
+    private boolean mUseTodayLayout = true;
 
     public ForecastAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
@@ -46,7 +48,7 @@ public class ForecastAdapter extends CursorAdapter {
      */
     private String formatHighLows(double high, double low) {
         boolean isMetric = Utility.isMetric(mContext);
-        String highLowStr = Utility.formatTemperature(high, isMetric) + "/" + Utility.formatTemperature(low, isMetric);
+        String highLowStr = Utility.formatTemperature(mContext,high) + "/" + Utility.formatTemperature(mContext,low);
         return highLowStr;
     }
 
@@ -54,18 +56,18 @@ public class ForecastAdapter extends CursorAdapter {
         This is ported from FetchWeatherTask --- but now we go straight from the cursor to the
         string.
      */
-    private String convertCursorRowToUXFormat(Cursor cursor) {
-        // get row indices for our cursor
-
-
-        String highAndLow = formatHighLows(
-                cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP),
-                cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP));
-
-        return Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE)) +
-                " - " + cursor.getString(ForecastFragment.COL_WEATHER_DESC) +
-                " - " + highAndLow;
-    }
+//    private String convertCursorRowToUXFormat(Cursor cursor) {
+//        // get row indices for our cursor
+//
+//
+//        String highAndLow = formatHighLows(
+//                cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP),
+//                cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP));
+//
+//        return Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE)) +
+//                " - " + cursor.getString(ForecastFragment.COL_WEATHER_DESC) +
+//                " - " + highAndLow;
+//    }
 
     /*
         Remember that these views are reused as needed.
@@ -120,7 +122,7 @@ public class ForecastAdapter extends CursorAdapter {
 //        iconView.setImageResource(R.drawable.ic_launcher);
         int viewType = getItemViewType(cursor.getPosition());
 
-        Log.v(ForecastAdapter.class.getSimpleName(),"@@@@###$$$%%%"+Utility.getArtResourceForWeatherCondition(weather_id));
+       // Log.v(ForecastAdapter.class.getSimpleName(),"@@@@###$$$%%%"+Utility.getArtResourceForWeatherCondition(weather_id));
         switch (viewType) {
             case VIEW_TODAY: {
                 // Get weather icon
@@ -149,16 +151,21 @@ public class ForecastAdapter extends CursorAdapter {
 
 
         boolean isMetric = Utility.isMetric(context);
-        String temphigh = Utility.formatTemperature(cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP), isMetric);
-        String templow = Utility.formatTemperature(cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP), isMetric);
+        String temphigh = Utility.formatTemperature(context,cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP));
+        String templow = Utility.formatTemperature(context,cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP));
 //        TextView highTempView = (TextView) view.findViewById(R.id.list_item_high_textview);
 //        TextView lowTempView = (TextView) view.findViewById(R.id.list_item_low_textview);
 //        highTempView.setText(temphigh + (char) 0x00B0);
 //        lowTempView.setText(templow + (char) 0x00B0);
 
-        viewHolder.highTempView.setText(temphigh + (char) 0x00B0);
-        viewHolder.lowTempView.setText(templow + (char) 0x00B0);
+        viewHolder.highTempView.setText(temphigh);
+        viewHolder.lowTempView.setText(templow);
 
 
     }
+
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+    }
+
 }

@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -29,8 +30,9 @@ public class SettingsActivity extends PreferenceActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        setTitle("Settings");
+
         super.onCreate(savedInstanceState);
+        setTitle("Settings");
 
         // Add 'general' preferences, defined in the XML file
         // TODO: Add preferences from XML
@@ -75,7 +77,7 @@ public class SettingsActivity extends PreferenceActivity
             if (prefIndex >= 0) {
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
-        } else {
+        } else if(preference instanceof EditTextPreference){
              String regex = "^[a-zA-Z0 - 9,]+$";
             if (!stringValue.matches(regex)) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -90,6 +92,11 @@ public class SettingsActivity extends PreferenceActivity
                 preference.setSummary(stringValue);
             }
 
+        }
+
+        else
+        {
+            preference.setSummary(stringValue);
         }
         return true;
     }

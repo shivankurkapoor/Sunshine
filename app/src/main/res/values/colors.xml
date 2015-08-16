@@ -2,8 +2,10 @@
 <resources>
 
     <color name="grey">#cccccc</color>
-    <color name="sunshine_light_blue">#5290FF</color>
+    <color name="sunshine_light_blue">#ff3a373a</color>
     <color name="sunshine_blue">#FFC142</color>
     <color name="sunshine_dark_blue">#FFC142</color>
+    <color name="white">#ffffff</color>
+
 
 </resources>

@@ -1,23 +1,22 @@
 package com.example.shivankurkapoor.sunshine;
 
-import android.app.ActionBar;
+
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewConfiguration;
-import android.widget.SpinnerAdapter;
+
+
+import com.example.shivankurkapoor.sunshine.sync.SunshineSyncAdapter;
 
 import java.lang.reflect.Field;
 
 
-public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback{
+public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback {
     private final String TAG = MainActivity.class.getSimpleName();
     //private final String FORECASTFRAGMENT_TAG = "FFTAG";
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
@@ -34,7 +33,6 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         makeActionOverflowMenuShown();
         setTitle();
         setContentView(R.layout.activity_main);
-
 
 
         if (findViewById(R.id.weather_detail_container) != null) {
@@ -54,22 +52,27 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
             mTwoPane = false;
             getSupportActionBar().setElevation(0f);
         }
+
+        ForecastFragment forecastFragment =  ((ForecastFragment)getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_forecast));
+        forecastFragment.setUseTodayLayout(!mTwoPane);
+
+        SunshineSyncAdapter.initializeSyncAdapter(this);
     }
 
-    public void setTitle()
-    {
+    public void setTitle() {
         String title = Utility.getPreferredLocation(this);
-        if(title!=null)
-        {
+        if (title != null) {
             title = title.trim();
-            if(title.contains(",")){
-                String temp[]=title.split(",");
-                Character c= temp[0].charAt(0);
-                temp[0]=temp[0].replace(temp[0].charAt(0),Character.toUpperCase(temp[0].charAt(0)));
-                temp[1]=temp[1].toUpperCase();
-                title = temp[0]+", "+temp[1];
+            if (title.contains(",")) {
+                String temp[] = title.split(",");
+                Character c = temp[0].charAt(0);
+                c = Character.toUpperCase(c);
+                temp[0] = temp[0].replaceFirst(temp[0].substring(0,1),c.toString());
+                temp[1] = temp[1].toUpperCase();
+                title = temp[0] + ", " + temp[1];
             }
-            setTitle("Sunshine - "+title);
+            setTitle("Sunshine - " + title);
         }
     }
 
@@ -78,16 +81,16 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         super.onResume();
         String location = Utility.getPreferredLocation(this);
         setTitle();
-        ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
+        ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
 
         // update the location in our second pane using the fragment manager
         if (location != null && !location.equals(mLocation)) {
             if (null != ff) {
                 ff.onLocationChanged();
             }
-            DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
+            DetailFragment df = (DetailFragment) getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
 
-            if ( null != df ) {
+            if (null != df) {
                 df.onLocationChanged(location);
             }
             mLocation = location;

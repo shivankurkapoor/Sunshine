@@ -17,25 +17,11 @@
 package com.example.shivankurkapoor.sunshine;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.ShareActionProvider;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
 
 import com.example.shivankurkapoor.sunshine.R;
 import com.example.shivankurkapoor.sunshine.data.WeatherContract;
@@ -51,16 +37,16 @@ public class DetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         String title = Utility.getPreferredLocation(this);
-        if(title!=null)
-        {
+        if (title != null) {
             title = title.trim();
-             if(title.contains(",")){
-                 String temp[]=title.split(",");
-                 Character c= temp[0].charAt(0);
-                 temp[0]=temp[0].replace(temp[0].charAt(0),Character.toUpperCase(temp[0].charAt(0)));
-                 temp[1]=temp[1].toUpperCase();
-                 title = temp[0]+", "+temp[1];
-             }
+            if (title.contains(",")) {
+                String temp[] = title.split(",");
+                Character c = temp[0].charAt(0);
+                c = Character.toUpperCase(c);
+                temp[0] = temp[0].replaceFirst(temp[0].substring(0, 1), c.toString());
+                temp[1] = temp[1].toUpperCase();
+                title = temp[0] + ", " + temp[1];
+            }
             setTitle(title);
         }
 
@@ -74,7 +60,7 @@ public class DetailActivity extends ActionBarActivity {
             DetailFragment fragment = new DetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.weather_detail_container,fragment)
+                    .add(R.id.weather_detail_container, fragment)
                     .commit();
         }
     }
@@ -103,7 +89,6 @@ public class DetailActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

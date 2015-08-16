@@ -1,6 +1,9 @@
 package com.example.shivankurkapoor.sunshine;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -19,11 +22,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-
 import com.example.shivankurkapoor.sunshine.data.WeatherContract;
-
-import android.support.v4.app.Fragment;
+import com.example.shivankurkapoor.sunshine.sync.SunshineSyncAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.content.CursorLoader;
@@ -38,6 +38,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private int listposition;
     private static final String POSITION_KEY = "position";
     private static final int FORECAST_LOADER = 0;
+    private boolean mUseTodayLayout;
     ListView listView;
     private static final String[] FORECAST_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
@@ -192,19 +193,19 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         });
 
 
-        if(savedInstanceState!=null && savedInstanceState.containsKey(POSITION_KEY))
+        if (savedInstanceState != null && savedInstanceState.containsKey(POSITION_KEY))
             listposition = savedInstanceState.getInt(POSITION_KEY);
 
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
         return rootView;
 
 
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-        if(listposition!=ListView.INVALID_POSITION)
-            outState.putInt(POSITION_KEY,listposition);
+    public void onSaveInstanceState(Bundle outState) {
+        if (listposition != ListView.INVALID_POSITION)
+            outState.putInt(POSITION_KEY, listposition);
 
         super.onSaveInstanceState(outState);
 
@@ -258,13 +259,24 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     void onUnitChanged() {
+
         mForecastAdapter.notifyDataSetChanged();
     }
 
     private void updateWeather() {
-        FetchWeatherTask weatherTask = new FetchWeatherTask(this.getActivity());
-        String location = Utility.getPreferredLocation(getActivity());
-        weatherTask.execute(location);
+
+//        Intent alarmIntent = new Intent(getActivity(),SunshineService.AlarmReceiver.class);
+//        alarmIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,Utility.getPreferredLocation(getActivity()));
+//        PendingIntent pendingIntent;
+//        pendingIntent = PendingIntent.getBroadcast(this.getActivity(),0,alarmIntent,PendingIntent.FLAG_ONE_SHOT);
+//        AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+//        long a = System.currentTimeMillis();
+//        am.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+5000,pendingIntent);
+//        long b=System.currentTimeMillis()-a;
+//        Log.v(ForecastFragment.class.getSimpleName(),"@@@@@@@@@@@@"+b);
+
+        SunshineSyncAdapter.syncImmediately(getActivity());
+
     }
 
 
@@ -287,7 +299,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mForecastAdapter.swapCursor(data);
-        if(listposition!=ListView.INVALID_POSITION)
+        if (listposition != ListView.INVALID_POSITION)
             listView.setSelection(listposition);
 
     }
@@ -298,5 +310,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
 
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+        if (mForecastAdapter != null) {
+            mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
+    }
 }
 

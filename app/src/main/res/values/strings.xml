@@ -28,6 +28,12 @@
 
     <string name="title_view_location" translatable="false">View Location</string>
 
+    <!--Notifications-->
+    <string name="pref_notification_lable">Notifications</string>
+    <string name="pref_notification_key">note_key</string>
+    <string name="pref_enable_notifications_true">Enabled</string>
+    <string name="pref_enable_notifications_false">Not Enabled</string>
+
     <!-- Date label when displaying today's weather forecast [CHAR LIMIT=20] -->
     <string name="today">Today</string>
 
@@ -39,13 +45,9 @@
     <string name="format_full_friendly_date"><xliff:g id="day">%1$s</xliff:g>, <xliff:g id="date">%2$s</xliff:g></string>
 
 
-
     <!-- Strings for formatting weather-related data -->
     <!-- Temperature format [CHAR LIMIT=5] -->
     <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
-
-
-
 
 
     <!-- Windspeed formats -->
@@ -64,4 +66,18 @@
 
     <!-- Humidity format CHAR LIMIT=25]-->
     <string name="format_humidity">Humidity: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+
+
+    <!-- Account type (for sync-adapter authenticator)]-->
+    <!-- SyncAdapter related]-->
+    <string name="sync_account_type">sunshine.example.com</string>
+    <string name="content_authority">com.example.shivankurkapoor.sunshine.data</string>
+
+    <!-- Notification Format -->
+    <string name="format_notification">
+    Forecast: <xliff:g id="condition">%1$s</xliff:g> High: <xliff:g id="high">%2$s</xliff:g> Low: <xliff:g id="low">%3$s</xliff:g>
+    </string>
+    <!-- Strings related to Notification preference -->
+    <string name="pref_last_notification">last_notification
+    </string>
 </resources>
