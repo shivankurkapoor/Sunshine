@@ -90,6 +90,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
         String format = "json";
         String units = "metric";
+        String appid = "89a6fb9ed1ea2e2f96b539b5a0f6a576";
         int numDays = 14;
 
         try {
@@ -102,12 +103,14 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             final String FORMAT_PARAM = "mode";
             final String UNITS_PARAM = "units";
             final String DAYS_PARAM = "cnt";
+            final String APPID_PARAM = "appid";
 
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, locationQuery)
                     .appendQueryParameter(FORMAT_PARAM, format)
                     .appendQueryParameter(UNITS_PARAM, units)
                     .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
+                    .appendQueryParameter(APPID_PARAM,appid)
                     .build();
 
             URL url = new URL(builtUri.toString());
