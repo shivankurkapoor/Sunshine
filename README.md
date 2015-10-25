@@ -1,2 +1,2 @@
 # Sunshine
-My sunshine weather app
+Sunshine weather app - Android
