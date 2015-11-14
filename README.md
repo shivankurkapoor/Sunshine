@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/shivankurkapoor/Sunshine/branches.svg?branch=master)](https://travis-ci.org/shivankurkapoor/Sunshine/branches)https://travis-ci.org/shivankurkapoor/Sunshine/
+
 # Sunshine weather app - Android
 
 <h3>Sunshine is a weather forecasting Android application with following key features:</h3>
