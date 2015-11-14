@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/shivankurkapoor/Sunshine/branches.svg?branch=master)](https://travis-ci.org/shivankurkapoor/Sunshine/)
+[![Build Status](https://travis-ci.org/shivankurkapoor/Sunshine.svg?branch=master)](https://travis-ci.org/shivankurkapoor/Sunshine/)
 
 # Sunshine weather app - Android
 
