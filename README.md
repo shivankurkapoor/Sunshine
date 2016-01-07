@@ -1,4 +1,5 @@
 [![Build Status](https://api.travis-ci.org/shivankurkapoor/Sunshine.svg?branch=master)](https://travis-ci.org/shivankurkapoor/Sunshine/)
+[![Play Store](https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRlo4_nMdKhrlg2mdDS-8VEif4zHgo2FzsZTXIPylEXfyOeeXok0w)](https://play.google.com/store/apps/details?id=com.app.shivankurkapoor.sunshine)
 
 # Sunshine weather app - Android
 
