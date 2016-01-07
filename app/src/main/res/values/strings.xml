@@ -7,7 +7,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="pref_location_key">location</string>
     <string name="pref_location_label">Location</string>
-    <string name="pref_location_defaultvalue">Hyderabad,IN</string>
+    <string name="pref_location_defaultvalue">Los Angeles,CA</string>
     <!-- Label for the temperature units preference [CHAR LIMIT=30] -->
     <string name="pref_units_label">Temperature Units</string>
 
