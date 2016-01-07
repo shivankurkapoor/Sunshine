@@ -1,7 +1,6 @@
-[![Build Status](https://api.travis-ci.org/shivankurkapoor/Sunshine.svg?branch=master)](https://travis-ci.org/shivankurkapoor/Sunshine/)    
-
-
 [![Play Store](http://style.anu.edu.au/_anu/images/icons/icon-google-play-small.png)](https://play.google.com/store/apps/details?id=com.app.shivankurkapoor.sunshine)
+
+[![Build Status](https://api.travis-ci.org/shivankurkapoor/Sunshine.svg?branch=master)](https://travis-ci.org/shivankurkapoor/Sunshine/)    
 
 # Sunshine weather app - Android
 
